@@ -2,3 +2,7 @@ fastapi
 uvicorn[standard]
 pydantic
 python-dotenv
+SQLAlchemy
+psycopg[binary]
+PyJWT
+pwdlib[argon2]
