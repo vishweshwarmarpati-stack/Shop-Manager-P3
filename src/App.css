@@ -1,0 +1,306 @@
+/* =========================================================
+   SNACKFLOW — APP LEVEL STYLES
+   ========================================================= */
+
+
+/* =========================================================
+   LOGIN ANIMATIONS
+   ========================================================= */
+
+@keyframes login-card-enter {
+  from {
+    opacity: 0;
+    transform:
+      translateY(24px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+@keyframes login-decoration-float-one {
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translate3d(25px, 20px, 0)
+      scale(1.06);
+  }
+}
+
+
+@keyframes login-decoration-float-two {
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translate3d(-20px, -25px, 0)
+      scale(1.08);
+  }
+}
+
+
+@keyframes login-logo-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 6px 18px rgba(0, 0, 0, 0.14);
+  }
+
+  50% {
+    box-shadow:
+      0 9px 26px rgba(0, 0, 0, 0.20);
+  }
+}
+
+
+/* =========================================================
+   LOGIN VISUAL POLISH
+   ========================================================= */
+
+.login-page {
+  isolation: isolate;
+}
+
+
+.login-card {
+  animation:
+    login-card-enter
+    0.65s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+
+.login-decoration-one {
+  animation:
+    login-decoration-float-one
+    8s
+    ease-in-out
+    infinite;
+}
+
+
+.login-decoration-two {
+  animation:
+    login-decoration-float-two
+    10s
+    ease-in-out
+    infinite;
+}
+
+
+.login-logo {
+  animation:
+    login-logo-pulse
+    4s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================================
+   LOGIN INPUT POLISH
+   ========================================================= */
+
+.login-input-wrapper {
+  position: relative;
+}
+
+
+.login-input-wrapper input {
+  background: transparent;
+}
+
+
+.login-input-wrapper input::placeholder {
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+
+.login-input-wrapper:focus-within
+.login-input-icon {
+  color: #111111;
+}
+
+
+.login-input-wrapper:focus-within
+input::placeholder {
+  color: #b7b7b7;
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+   ========================================================= */
+
+.login-button {
+  position: relative;
+  overflow: hidden;
+
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.login-button::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 80%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.14),
+      transparent
+    );
+
+  transform: skewX(-18deg);
+
+  transition:
+    left 0.6s ease;
+
+  pointer-events: none;
+}
+
+
+.login-button:hover::before {
+  left: 140%;
+}
+
+
+.login-button:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+
+.login-button:disabled {
+  cursor: wait;
+}
+
+
+/* =========================================================
+   LOGIN ERROR
+   ========================================================= */
+
+.login-error {
+  animation:
+    login-error-enter
+    0.22s
+    ease-out
+    both;
+}
+
+
+@keyframes login-error-enter {
+  from {
+    opacity: 0;
+    transform:
+      translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+}
+
+
+/* =========================================================
+   LOGIN SECURITY CARD
+   ========================================================= */
+
+.login-demo {
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.login-demo:hover {
+  background: #f2f2f2;
+
+  transform:
+    translateY(-1px);
+}
+
+
+/* =========================================================
+   LOGIN FOOTER
+   ========================================================= */
+
+.login-footer {
+  opacity: 0.8;
+
+  transition:
+    opacity 0.2s ease;
+}
+
+
+.login-card:hover .login-footer {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .login-card,
+  .login-logo,
+  .login-decoration-one,
+  .login-decoration-two,
+  .login-error {
+    animation: none;
+  }
+
+  .login-button::before {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   MOBILE LOGIN
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .login-card {
+    animation-duration: 0.45s;
+  }
+
+  .login-decoration-one,
+  .login-decoration-two {
+    opacity: 0.65;
+  }
+}
