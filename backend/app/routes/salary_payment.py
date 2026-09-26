@@ -3,11 +3,14 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.salary_payment import SalaryPayment
+from app.models.user import User
 from app.models.worker import Worker
+from app.routes.auth import require_admin
 from app.schemas.salary_payment import (
     SalaryPaymentCreate,
     SalaryPaymentResponse,
 )
+
 
 router = APIRouter(
     prefix="/salary-payments",
@@ -35,6 +38,7 @@ def payment_to_response(
     response_model=list[SalaryPaymentResponse],
 )
 def get_salary_payments(
+    current_user: User = Depends(require_admin),
     db: Session = Depends(get_db),
 ):
     payments = (
@@ -57,6 +61,7 @@ def get_salary_payments(
 )
 def get_worker_salary_payments(
     worker_id: int,
+    current_user: User = Depends(require_admin),
     db: Session = Depends(get_db),
 ):
     worker = db.get(
@@ -95,6 +100,7 @@ def get_worker_salary_payments(
 )
 def create_salary_payment(
     payment_data: SalaryPaymentCreate,
+    current_user: User = Depends(require_admin),
     db: Session = Depends(get_db),
 ):
     worker = db.get(
@@ -128,6 +134,7 @@ def create_salary_payment(
 )
 def delete_salary_payment(
     payment_id: int,
+    current_user: User = Depends(require_admin),
     db: Session = Depends(get_db),
 ):
     payment = db.get(
