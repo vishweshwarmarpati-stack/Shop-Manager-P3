@@ -14,12 +14,6 @@ DATABASE_URL = os.getenv(
 )
 
 
-print("=" * 60)
-print("SNACKFLOW DATABASE")
-print("DATABASE_URL:", DATABASE_URL)
-print("=" * 60)
-
-
 engine = create_engine(
     DATABASE_URL,
     echo=False,
@@ -42,5 +36,6 @@ def get_db():
 
     try:
         yield db
+
     finally:
         db.close()

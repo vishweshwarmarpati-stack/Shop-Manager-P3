@@ -3,8 +3,10 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pwdlib import PasswordHash
+from sqlalchemy import select
 
-from app.database import Base, engine
+from app.database import Base, engine, SessionLocal
 
 from app.models.shop import Shop
 from app.models.product import Product
@@ -28,6 +30,82 @@ load_dotenv()
 Base.metadata.create_all(bind=engine)
 
 
+def ensure_admin_user():
+    """
+    Create the initial SnackFlow admin account if it does not exist.
+
+    The admin credentials come from environment variables:
+    ADMIN_USERNAME
+    ADMIN_PASSWORD
+
+    If the admin already exists, nothing is changed.
+    """
+
+    username = os.getenv("ADMIN_USERNAME")
+    password = os.getenv("ADMIN_PASSWORD")
+
+    if not username or not password:
+        print(
+            "ADMIN_USERNAME or ADMIN_PASSWORD is not configured. "
+            "Skipping automatic admin creation."
+        )
+        return
+
+    username = username.strip()
+
+    if not username:
+        print(
+            "ADMIN_USERNAME is empty. "
+            "Skipping automatic admin creation."
+        )
+        return
+
+    password_hash = PasswordHash.recommended()
+
+    db = SessionLocal()
+
+    try:
+        existing_user = db.scalar(
+            select(User).where(
+                User.username == username
+            )
+        )
+
+        if existing_user:
+            print(
+                f"SnackFlow admin '{username}' already exists."
+            )
+            return
+
+        admin = User(
+            username=username,
+            password_hash=password_hash.hash(password),
+            role="ADMIN",
+            shop_id=None,
+            is_active=True,
+        )
+
+        db.add(admin)
+        db.commit()
+        db.refresh(admin)
+
+        print("=" * 60)
+        print("SNACKFLOW ADMIN CREATED")
+        print("=" * 60)
+        print(f"User ID  : {admin.id}")
+        print(f"Username : {admin.username}")
+        print("Role     : ADMIN")
+        print("Shop     : ALL SHOPS")
+        print("Status   : ACTIVE")
+        print("=" * 60)
+
+    finally:
+        db.close()
+
+
+ensure_admin_user()
+
+
 app = FastAPI(
     title="SnackFlow API",
     description="Backend API for SnackFlow snack shop management system.",
@@ -40,10 +118,12 @@ frontend_url = os.getenv(
     "",
 )
 
+
 allowed_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
+
 
 if frontend_url:
     allowed_origins.extend(
