@@ -1,75 +1,128 @@
-# React + TypeScript + Vite
+# 🍿 SnackFlow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> A modern multi-shop snack shop management and POS platform.
 
-Currently, two official plugins are available:
+SnackFlow is a full-stack web application designed to help snack shop owners manage multiple shops, products, workers, orders, salaries, and sales analytics from a single platform.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The system provides separate access for administrators and cashiers while keeping shop-level data isolated.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Live Application
 
-## Expanding the ESLint configuration
+### Frontend
+https://shop-manager-p3.vercel.app
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Backend API
+https://snackflow-backend-aia5.onrender.com
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### API Documentation
+https://snackflow-backend-aia5.onrender.com/docs
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## ✨ Features
 
-```
+### 🔐 Authentication & Authorization
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+- Secure login system
+- JWT-based authentication
+- Password hashing
+- Role-based access control
+- Administrator and cashier roles
+- Active/inactive user management
+- Shop-specific cashier access
+- Protected backend API endpoints
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 🏪 Multi-Shop Management
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Create and manage multiple shops
+- Each shop can have its own:
+  - Products
+  - Workers
+  - Orders
+  - Cashiers
+- Administrators can access all shops
+- Cashiers can access only their assigned shop
 
-```
+### 📦 Product Management
+
+- Add products
+- Edit products
+- Delete products
+- Activate/deactivate products
+- Assign products to specific shops
+- Shop-level product isolation
+
+### 🛒 POS System
+
+- Product-based point-of-sale interface
+- Add products to cart
+- Increase/decrease quantities
+- Automatic subtotal calculation
+- Automatic total calculation
+- Payment method selection
+- Order creation
+
+### 🧾 Order Management
+
+- Store completed orders
+- View order history
+- View individual orders
+- Track payment methods
+- Shop-specific order access
+
+### 👷 Worker Management
+
+- Add workers
+- Assign workers to shops
+- Update worker information
+- Activate/deactivate workers
+- Manage worker salary information
+
+### 💰 Salary Management
+
+- Record salary payments
+- Track payment month
+- Track payment method
+- Store payment notes
+- View worker salary payment history
+- Delete salary payment records
+
+### 📊 Analytics
+
+- Sales statistics
+- Order statistics
+- Revenue information
+- Shop-based analysis
+- Dashboard statistics
+
+### 👥 User Management
+
+Administrators can:
+
+- Create users
+- Edit users
+- Assign cashier accounts to shops
+- Change roles
+- Activate/deactivate users
+- Delete users
+- View user status
+
+---
+
+# 🏗️ Architecture
+
+```text
+                         SnackFlow
+                             │
+              ┌──────────────┴──────────────┐
+              │                             │
+          Frontend                       Backend
+       React + TypeScript                 FastAPI
+              │                             │
+              │          REST API            │
+              └──────────────►──────────────┘
+                                            │
+                                            ▼
+                                      PostgreSQL
